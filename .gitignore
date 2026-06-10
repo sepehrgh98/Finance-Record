@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local environment/config
+.env
+.env.*
+!.env.example
+
+# Frontend dependencies/build output
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# SQLite/runtime data
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+rpg_reports.sqlite3
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+.cache/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Microsoft Office temporary lock files
+~$*
+
+# Generated archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz

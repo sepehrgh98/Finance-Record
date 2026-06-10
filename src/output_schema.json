@@ -1,0 +1,69 @@
+{
+  "metadata": {
+    "analysis_date": "",
+    "reporting_period": "",
+    "files_processed": 0,
+    "files_ignored": 0
+  },
+
+  "revenue": {
+    "total_invoiced": 0.0,
+    "total_paid": 0.0,
+    "total_outstanding": 0.0,
+
+    "outstanding_invoices": [
+      {
+        "client": "",
+        "invoice_id": "",
+        "amount": 0.0
+      }
+    ]
+  },
+
+  "expenses": {
+    "total_card_expenses": 0.0,
+    "total_cash_expenses": 0.0,
+    "total_refunds": 0.0,
+
+    "refunds": [
+      {
+        "vendor": "",
+        "amount": 0.0,
+        "date": ""
+      }
+    ],
+
+    "potential_duplicate_transactions": [
+      {
+        "vendor": "",
+        "amount": 0.0,
+        "date": ""
+      }
+    ]
+  },
+
+  "annotations": [
+    {
+      "entity_type": "transaction",
+      "entity_id": "",
+      "entity_name": "",
+      "note": "",
+      "confidence": 0.0
+    }
+  ],
+
+  "action_items": [
+    ""
+  ],
+
+  "business_rules": [
+    ""
+  ],
+
+  "ignored_files": [
+    {
+      "filename": "",
+      "reason": ""
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# Current required Python code only uses the standard library.
+#
+# Local system tools used by extractors:
+# - ghostscript (`gs`) for PDF text extraction
+# - tesseract for image OCR
+#
+# Optional Python OCR integrations supported when installed:
+# - easyocr
+# - pytesseract + Pillow
+# - Pillow for image preprocessing before OCR
+#
+# Optional local LLM:
+# - Ollama running locally at http://localhost:11434
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+sqlalchemy>=2.0.0
+transformers>=4.50.0
+accelerate>=1.0.0
+sentencepiece>=0.2.0
+safetensors>=0.5.0
