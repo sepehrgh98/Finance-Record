@@ -33,6 +33,7 @@ class ReportGenerator:
             ),
             revenue=self._revenue(invoices),
             expenses=self._expenses(transactions, receipts),
+            findings=self._findings(reconciliation_report),
             annotations=self._annotations(reconciliation_report),
             action_items=list(reconciliation_report.action_items),
             business_rules=list(reconciliation_report.rules),
@@ -66,6 +67,7 @@ class ReportGenerator:
                 self._annotations(reconciliation_report)
             ),
             "action_item_count": len(reconciliation_report.action_items),
+            "finding_count": len(reconciliation_report.findings),
         }
 
     def _revenue(self, invoices: list[Invoice]) -> dict:
@@ -144,6 +146,28 @@ class ReportGenerator:
             annotations.append(asdict(annotation))
 
         return annotations
+
+    def _findings(
+        self,
+        reconciliation_report: ReconciliationReport,
+    ) -> list[dict]:
+        findings: list[dict] = []
+        seen: set[tuple[str, str | None, str]] = set()
+
+        for finding in reconciliation_report.findings:
+            key = (
+                finding.finding_type,
+                finding.entity_id,
+                "|".join(finding.evidence),
+            )
+
+            if key in seen:
+                continue
+
+            seen.add(key)
+            findings.append(asdict(finding))
+
+        return findings
 
     def _sum_amounts(self, invoices: list[Invoice]) -> float:
         return self._round_money(

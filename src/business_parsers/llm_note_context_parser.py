@@ -6,6 +6,7 @@ from config.settings import (
     LLM_MODEL,
     LLM_PROVIDER,
 )
+from context.context_hint_builder import ContextHintBuilder
 from llm.base import BaseLLMClient
 from models.business_context import BusinessContext
 from models.semantic_fact import SemanticFact
@@ -45,6 +46,10 @@ class LLMNoteContextParser:
 
             if semantic_fact is not None:
                 business_context.semantic_facts.append(semantic_fact)
+
+        business_context.context_hints = ContextHintBuilder().build(
+            business_context.semantic_facts
+        )
 
         return business_context
 
@@ -110,6 +115,7 @@ A statement that defines how documents, receipts, invoices, folders, or records 
 
 action_item:
 A task, reminder, follow-up, opportunity, compliance action, or future work item.
+Imperative or future-oriented tasks such as renew, follow up, check, call, file, send, move, or figure out are action_item.
 
 ignore:
 Jokes, wishes, opinions, commentary, or statements with no business value.
@@ -125,6 +131,47 @@ Return ONLY valid JSON:
   "confidence": 0.95
 }
 
+Examples:
+
+Input:
+greenloop still hasn't paid invoice 2
+Output:
+{
+  "fact_type": "claim",
+  "statement": "greenloop still hasn't paid invoice 2",
+  "entities": ["GreenLoop", "invoice 2"],
+  "confidence": 0.95
+}
+
+Input:
+receipts of cash purchases are in the receipts folder
+Output:
+{
+  "fact_type": "rule",
+  "statement": "receipts of cash purchases are in the receipts folder",
+  "entities": ["receipts"],
+  "confidence": 0.95
+}
+
+Input:
+renew business registration before june
+Output:
+{
+  "fact_type": "action_item",
+  "statement": "renew business registration before june",
+  "entities": ["business registration"],
+  "confidence": 0.95
+}
+
+Input:
+wish i could just throw my business docs at something and get answers
+Output:
+{
+  "fact_type": "ignore",
+  "statement": "",
+  "entities": [],
+  "confidence": 0.95
+}
 
 """.strip()
 

@@ -69,6 +69,11 @@ h3 {
   margin-bottom: 14px;
 }
 
+h4 {
+  font-size: 16px;
+  margin: 2px 0 0;
+}
+
 .panel-heading p,
 .report-header p {
   color: #627d98;
@@ -430,6 +435,144 @@ td {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.finding-groups,
+.finding-list {
+  display: grid;
+  gap: 12px;
+}
+
+.finding-group {
+  display: grid;
+  gap: 10px;
+}
+
+.finding-group + .finding-group {
+  margin-top: 10px;
+}
+
+.finding-group-heading {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.finding-group-heading h4 {
+  color: #243b53;
+}
+
+.finding-group-heading span {
+  background: #edf2f7;
+  border-radius: 999px;
+  color: #486581;
+  font-size: 12px;
+  font-weight: 750;
+  padding: 4px 8px;
+}
+
+.finding-card {
+  background: #ffffff;
+  border: 1px solid #d9e2ec;
+  border-left: 4px solid #9fb3c8;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.finding-card p {
+  color: #334e68;
+  margin-top: 8px;
+}
+
+.finding-card ul {
+  color: #486581;
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+.finding-heading {
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.finding-type {
+  color: #627d98;
+  display: block;
+  font-size: 12px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.finding-entity {
+  font-weight: 700;
+}
+
+.finding-action {
+  background: #f8fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.finding-high {
+  border-left-color: #b42318;
+}
+
+.finding-medium {
+  border-left-color: #b7791f;
+}
+
+.finding-low {
+  border-left-color: #0f766e;
+}
+
+.severity-badge {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1;
+  padding: 6px 9px;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.finding-badges {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.status-pill {
+  background: #edf2f7;
+  border-radius: 999px;
+  color: #486581;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1;
+  padding: 6px 9px;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.severity-high {
+  background: #fee4e2;
+  color: #b42318;
+}
+
+.severity-medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.severity-low {
+  background: #dcfce7;
+  color: #15803d;
 }
 
 .card-list {

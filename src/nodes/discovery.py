@@ -2,22 +2,24 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
-from typing import List
 
+from enums.physical_file_type import PhysicalFileType
+from models.document_context import DocumentContext
 from models.file_info import FileInfo
 
 
 class DiscoveryNode:
     """
-    Recursively discovers files inside a root directory.
+    Recursively discovers files and determines their physical file type.
 
     Responsibilities:
     - Find files
     - Collect basic metadata
     - Compute SHA256 hashes
+    - Determine physical file type from extension
 
     Non-responsibilities:
-    - Classification
+    - Semantic classification
     - OCR
     - Parsing
     - Content inspection
@@ -34,7 +36,20 @@ class DiscoveryNode:
         "~$",
     }
 
-    def run(self, root_dir: str | Path) -> List[FileInfo]:
+    EXTENSION_MAP = {
+        ".pdf": PhysicalFileType.PDF,
+        ".xlsx": PhysicalFileType.SPREADSHEET,
+        ".xls": PhysicalFileType.SPREADSHEET,
+        ".txt": PhysicalFileType.TEXT,
+        ".csv": PhysicalFileType.CSV,
+        ".html": PhysicalFileType.HTML,
+        ".htm": PhysicalFileType.HTML,
+        ".jpg": PhysicalFileType.IMAGE,
+        ".jpeg": PhysicalFileType.IMAGE,
+        ".png": PhysicalFileType.IMAGE,
+    }
+
+    def run(self, root_dir: str | Path) -> list[DocumentContext]:
         root_path = Path(root_dir)
 
         if not root_path.exists():
@@ -47,7 +62,7 @@ class DiscoveryNode:
                 f"Expected a directory, got: {root_path}"
             )
 
-        discovered_files: List[FileInfo] = []
+        discovered_contexts: list[DocumentContext] = []
 
         for file_path in root_path.rglob("*"):
 
@@ -57,17 +72,40 @@ class DiscoveryNode:
             if self._should_ignore(file_path):
                 continue
 
-            discovered_files.append(
-                FileInfo(
-                    path=file_path,
-                    filename=file_path.name,
-                    extension=file_path.suffix.lower(),
-                    size_bytes=file_path.stat().st_size,
-                    sha256=self._compute_sha256(file_path),
+            file_info = self._build_file_info(file_path)
+            discovered_contexts.append(
+                DocumentContext(
+                    file_info=file_info,
+                    physical_type=self._detect_physical_type(file_info),
                 )
             )
 
-        return discovered_files
+        return discovered_contexts
+
+    def discover_files(self, root_dir: str | Path) -> list[FileInfo]:
+        """
+        Backward-compatible helper for tests/tools that only need FileInfo.
+        """
+
+        return [
+            context.file_info
+            for context in self.run(root_dir)
+        ]
+
+    def _detect_physical_type(self, file_info: FileInfo) -> PhysicalFileType:
+        return self.EXTENSION_MAP.get(
+            file_info.extension.lower(),
+            PhysicalFileType.UNKNOWN,
+        )
+
+    def _build_file_info(self, file_path: Path) -> FileInfo:
+        return FileInfo(
+            path=file_path,
+            filename=file_path.name,
+            extension=file_path.suffix.lower(),
+            size_bytes=file_path.stat().st_size,
+            sha256=self._compute_sha256(file_path),
+        )
 
     def _should_ignore(self, file_path: Path) -> bool:
         """

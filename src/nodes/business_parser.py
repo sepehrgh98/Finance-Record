@@ -30,6 +30,9 @@ class BusinessParserNode:
         return contexts
 
     def parse(self, context: DocumentContext) -> DocumentContext:
+        if "parser_result" in context.metadata:
+            return context
+
         if context.semantic_type is None:
             return context
 

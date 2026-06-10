@@ -8,6 +8,7 @@
 # - easyocr
 # - pytesseract + Pillow
 # - Pillow for image preprocessing before OCR
+# - paddleocr for low-quality and handwritten image fallback
 #
 # Optional local LLM:
 # - Ollama running locally at http://localhost:11434
@@ -15,7 +16,11 @@ fastapi>=0.115.0
 uvicorn[standard]>=0.30.0
 python-multipart>=0.0.9
 sqlalchemy>=2.0.0
+paddlepaddle>=3.0.0
+paddleocr>=2.8.0
+qwen-vl-utils>=0.0.8
 transformers>=4.50.0
 accelerate>=1.0.0
+torchvision>=0.18.0
 sentencepiece>=0.2.0
 safetensors>=0.5.0

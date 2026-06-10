@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from enums.document_type import DocumentType
 
@@ -8,3 +8,4 @@ class ClassificationResult:
     document_type: DocumentType | None
     score: float
     reason: str
+    evidence: list[str] = field(default_factory=list)

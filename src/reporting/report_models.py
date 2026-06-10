@@ -7,6 +7,7 @@ class FinalReport:
     summary: dict
     revenue: dict
     expenses: dict
+    findings: list[dict]
     annotations: list[dict]
     action_items: list[str]
     business_rules: list[str]
@@ -18,6 +19,7 @@ class FinalReport:
             "summary": self.summary,
             "revenue": self.revenue,
             "expenses": self.expenses,
+            "findings": self.findings,
             "annotations": self.annotations,
             "action_items": self.action_items,
             "business_rules": self.business_rules,
