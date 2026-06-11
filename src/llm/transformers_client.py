@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 
 from transformers import pipeline
 
@@ -71,11 +72,12 @@ class TransformersLLMClient(BaseLLMClient):
                 .strip()
             )
 
-            print("\n" + "=" * 80)
-            print("RAW MODEL OUTPUT")
-            print("=" * 80)
-            print(generated_text)
-            print("=" * 80 + "\n")
+            if os.getenv("LLM_DEBUG") == "1":
+                print("\n" + "=" * 80)
+                print("RAW MODEL OUTPUT")
+                print("=" * 80)
+                print(generated_text)
+                print("=" * 80 + "\n")
 
         except Exception as exc:
             self.last_error = str(exc)

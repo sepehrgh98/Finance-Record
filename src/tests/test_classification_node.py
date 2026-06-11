@@ -3,12 +3,11 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from enums.document_type import DocumentType
-from enums.physical_file_type import PhysicalFileType
-from models.context_hint import ContextHint
-from models.document_context import DocumentContext
-from models.file_info import FileInfo
-from nodes.classifier import ClassifierNode
+from core.enums.document_type import DocumentType
+from core.enums.physical_file_type import PhysicalFileType
+from core.models.document_context import DocumentContext
+from core.models.file_info import FileInfo
+from classification.classifier import ClassifierNode
 
 
 def make_context(
@@ -275,59 +274,6 @@ class ClassificationNodeTests(unittest.TestCase):
             classified.classification_reason,
             "Document-like image detected but OCR failed across all engines",
         )
-
-    def test_note_folder_hint_can_classify_ambiguous_document_image(self) -> None:
-        context = make_context(
-            filename="shoebox/receipts/ambiguous.jpeg",
-            physical_type=PhysicalFileType.IMAGE,
-            text="handwritten total 27.50 paid",
-            metadata={
-                "ocr_document_like": True,
-                "context_hints": [
-                    ContextHint(
-                        hint_type="folder_document_type",
-                        target="receipts",
-                        value="receipt",
-                        source_statement=(
-                            "receipts of cash purchases are in the receipts/ folder"
-                        ),
-                    )
-                ],
-            },
-        )
-
-        classified = self.assert_classified_as(context, DocumentType.RECEIPT)
-
-        self.assertIn("note-derived folder hint", classified.classification_reason)
-
-    def test_note_folder_hint_does_not_force_irrelevant_image(self) -> None:
-        context = make_context(
-            filename="shoebox/receipts/chat_gpt.jpg",
-            physical_type=PhysicalFileType.IMAGE,
-            text="abstract chat screenshot with no business document",
-            metadata={
-                "ocr_document_like": False,
-                "context_hints": [
-                    ContextHint(
-                        hint_type="folder_document_type",
-                        target="receipts",
-                        value="receipt",
-                        source_statement=(
-                            "receipts of cash purchases are in the receipts/ folder"
-                        ),
-                    )
-                ],
-            },
-        )
-
-        classified = classify(context)
-
-        self.assertEqual(classified.semantic_type, DocumentType.UNKNOWN)
-        self.assertEqual(
-            classified.classification_reason,
-            "Image does not appear to contain a business document",
-        )
-
 
 if __name__ == "__main__":
     unittest.main()

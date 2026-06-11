@@ -1,9 +1,10 @@
-export async function analyzeFiles(files) {
+export async function analyzeFiles(files, analysisId) {
   const formData = new FormData();
 
   files.forEach((file) => {
     formData.append("files", file, file.webkitRelativePath || file.name);
   });
+  formData.append("analysis_id", analysisId);
 
   const response = await fetch("/analyze", {
     method: "POST",
@@ -17,6 +18,17 @@ export async function analyzeFiles(files) {
   }
 
   return payload.report_id;
+}
+
+export async function getAnalysisProgress(analysisId) {
+  const response = await fetch(`/analyze/${analysisId}/progress`);
+  const payload = await response.json();
+
+  if (!response.ok || !payload.success) {
+    throw new Error(payload.error || "Unable to load analysis progress");
+  }
+
+  return payload;
 }
 
 export async function getReport(reportId) {

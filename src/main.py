@@ -4,7 +4,7 @@ from services.analyze_service import AnalyzeService
 
 
 def main():
-    report = AnalyzeService().analyze_directory("shoebox")
+    report = AnalyzeService().analyze_directory("data/shoebox")
 
     print(
         json.dumps(

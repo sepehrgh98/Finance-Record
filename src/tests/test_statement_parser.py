@@ -3,11 +3,11 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
-from business_parsers.statement_parser import StatementParser
-from enums.document_type import DocumentType
-from enums.physical_file_type import PhysicalFileType
-from models.document_context import DocumentContext
-from models.file_info import FileInfo
+from parsing.statement_parser import StatementParser
+from core.enums.document_type import DocumentType
+from core.enums.physical_file_type import PhysicalFileType
+from core.models.document_context import DocumentContext
+from core.models.file_info import FileInfo
 
 
 def make_statement_context(text: str) -> DocumentContext:

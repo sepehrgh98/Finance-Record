@@ -158,18 +158,38 @@ h4 {
 .analysis-log {
   color: #486581;
   display: grid;
-  gap: 6px;
+  gap: 8px;
   margin: 12px 0 0;
   padding-left: 20px;
+}
+
+.analysis-log li {
+  min-width: 0;
 }
 
 .analysis-log li::marker {
   color: #9fb3c8;
 }
 
+.analysis-log .is-complete {
+  color: #486581;
+}
+
 .analysis-log .is-current {
   color: #102a43;
   font-weight: 750;
+}
+
+.analysis-log .is-pending {
+  color: #9fb3c8;
+}
+
+.analysis-current-detail {
+  color: #829ab1;
+  font-size: 14px;
+  margin-top: 10px;
+  overflow-wrap: anywhere;
+  padding-left: 20px;
 }
 
 .drop-zone.is-dragging {
@@ -443,13 +463,52 @@ td {
   gap: 12px;
 }
 
+.finding-category-summary {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 16px;
+}
+
+.finding-category-count {
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  min-height: 42px;
+  padding: 8px 10px;
+}
+
+.finding-category-count span {
+  color: #486581;
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 0;
+}
+
+.finding-category-count strong {
+  background: #e6eef8;
+  border-radius: 999px;
+  color: #243b53;
+  display: inline-flex;
+  font-size: 12px;
+  justify-content: center;
+  min-width: 26px;
+  padding: 4px 8px;
+}
+
 .finding-group {
+  border-top: 1px solid #edf2f7;
   display: grid;
   gap: 10px;
+  padding-top: 14px;
 }
 
 .finding-group + .finding-group {
-  margin-top: 10px;
+  margin-top: 2px;
 }
 
 .finding-group-heading {
@@ -460,6 +519,8 @@ td {
 
 .finding-group-heading h4 {
   color: #243b53;
+  font-size: 15px;
+  margin: 0;
 }
 
 .finding-group-heading span {
@@ -476,7 +537,7 @@ td {
   border: 1px solid #d9e2ec;
   border-left: 4px solid #9fb3c8;
   border-radius: 8px;
-  padding: 14px;
+  padding: 16px;
 }
 
 .finding-card p {
@@ -484,9 +545,17 @@ td {
   margin-top: 8px;
 }
 
+.finding-card h4 {
+  color: #102a43;
+  font-size: 17px;
+  line-height: 1.3;
+  margin: 3px 0 0;
+}
+
 .finding-card ul {
   color: #486581;
-  margin: 10px 0 0;
+  font-size: 13px;
+  margin: 8px 0 0;
   padding-left: 18px;
 }
 
@@ -505,15 +574,92 @@ td {
   text-transform: uppercase;
 }
 
-.finding-entity {
-  font-weight: 700;
+.finding-meaning {
+  font-size: 15px;
 }
 
-.finding-action {
+.finding-context {
   background: #f8fafc;
   border: 1px solid #edf2f7;
   border-radius: 6px;
-  padding: 8px 10px;
+  display: grid;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 9px 10px;
+}
+
+.finding-context div {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: 70px minmax(0, 1fr);
+}
+
+.finding-context dt {
+  color: #627d98;
+  font-size: 12px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.finding-context dd {
+  color: #334e68;
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.finding-why {
+  color: #627d98;
+  font-size: 14px;
+}
+
+.finding-action {
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  border-radius: 6px;
+  color: #134e4a;
+  font-weight: 650;
+  padding: 9px 10px;
+}
+
+.finding-action span {
+  color: #0f766e;
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0;
+  margin-bottom: 2px;
+  text-transform: uppercase;
+}
+
+.finding-evidence {
+  border-top: 1px solid #edf2f7;
+  color: #627d98;
+  font-size: 13px;
+  margin-top: 12px;
+  padding-top: 10px;
+}
+
+.finding-evidence summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.finding-evidence dl {
+  display: grid;
+  gap: 4px 12px;
+  grid-template-columns: 140px minmax(0, 1fr);
+  margin: 10px 0 0;
+}
+
+.finding-evidence dt {
+  color: #486581;
+  font-weight: 750;
+}
+
+.finding-evidence dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .finding-high {
@@ -601,7 +747,8 @@ td {
 @media (max-width: 900px) {
   .summary-grid,
   .metric-row,
-  .analysis-summary ul {
+  .analysis-summary ul,
+  .finding-category-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -620,7 +767,13 @@ td {
 
   .summary-grid,
   .metric-row,
-  .analysis-summary ul {
+  .analysis-summary ul,
+  .finding-category-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .finding-context div,
+  .finding-evidence dl {
     grid-template-columns: 1fr;
   }
 }

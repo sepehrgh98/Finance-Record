@@ -6,8 +6,9 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from config.settings import VLM_LOCAL_FILES_ONLY
+from core.config.settings import VLM_LOCAL_FILES_ONLY
 from llm.base import BaseLLMClient
+from core.utils.output_silencer import silence_third_party_output
 
 
 class QwenVLClient(BaseLLMClient):
@@ -78,12 +79,13 @@ class QwenVLClient(BaseLLMClient):
             padding=True,
             return_tensors="pt",
         ).to(model.device)
-        output_text = self._generate_and_decode(
-            model=model,
-            processor=processor,
-            inputs=inputs,
-            max_new_tokens=max_new_tokens,
-        )
+        with silence_third_party_output("LLM_DEBUG", "OCR_DEBUG"):
+            output_text = self._generate_and_decode(
+                model=model,
+                processor=processor,
+                inputs=inputs,
+                max_new_tokens=max_new_tokens,
+            )
         self._debug_raw_output(output_text)
         return output_text
 
@@ -137,12 +139,13 @@ class QwenVLClient(BaseLLMClient):
                 f"image_count={len(image_inputs or [])}, "
                 f"input_tokens={len(inputs.input_ids[0])}"
             )
-            output_text = self._generate_and_decode(
-                model=model,
-                processor=processor,
-                inputs=inputs,
-                max_new_tokens=max_new_tokens,
-            )
+            with silence_third_party_output("LLM_DEBUG", "OCR_DEBUG"):
+                output_text = self._generate_and_decode(
+                    model=model,
+                    processor=processor,
+                    inputs=inputs,
+                    max_new_tokens=max_new_tokens,
+                )
             self._debug(f"raw VLM output: {output_text}")
             return output_text
 
@@ -153,25 +156,26 @@ class QwenVLClient(BaseLLMClient):
         ):
             return self._model_cache[self.model], self._processor_cache[self.model]
 
-        from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
+        with silence_third_party_output("LLM_DEBUG", "OCR_DEBUG"):
+            from transformers import AutoProcessor, Qwen2_5_VLForConditionalGeneration
 
-        self._debug(
-            f"loading model={self.model} "
-            f"local_files_only={VLM_LOCAL_FILES_ONLY}"
-        )
-        model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
-            self.model,
-            device_map="auto",
-            torch_dtype="auto",
-            local_files_only=VLM_LOCAL_FILES_ONLY,
-        )
-        self._debug("model loaded")
-        self._debug("loading processor")
-        processor = AutoProcessor.from_pretrained(
-            self.model,
-            local_files_only=VLM_LOCAL_FILES_ONLY,
-        )
-        self._debug("processor loaded")
+            self._debug(
+                f"loading model={self.model} "
+                f"local_files_only={VLM_LOCAL_FILES_ONLY}"
+            )
+            model = Qwen2_5_VLForConditionalGeneration.from_pretrained(
+                self.model,
+                device_map="auto",
+                torch_dtype="auto",
+                local_files_only=VLM_LOCAL_FILES_ONLY,
+            )
+            self._debug("model loaded")
+            self._debug("loading processor")
+            processor = AutoProcessor.from_pretrained(
+                self.model,
+                local_files_only=VLM_LOCAL_FILES_ONLY,
+            )
+            self._debug("processor loaded")
 
         self._model_cache[self.model] = model
         self._processor_cache[self.model] = processor

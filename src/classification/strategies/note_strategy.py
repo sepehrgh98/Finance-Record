@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from classification.base_strategy import BaseClassificationStrategy
-from enums.document_type import DocumentType
-from enums.physical_file_type import PhysicalFileType
-from models.classification_result import ClassificationResult
-from models.document_context import DocumentContext
+from classification.strategies.base_strategy import BaseClassificationStrategy
+from core.enums.document_type import DocumentType
+from core.enums.physical_file_type import PhysicalFileType
+from core.models.classification_result import ClassificationResult
+from core.models.document_context import DocumentContext
 
 
 class NoteStrategy(BaseClassificationStrategy):

@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import asdict
 from datetime import datetime, timezone
 
-from business_entities.invoice import Invoice
-from models.receipt import Receipt
-from models.transaction import Transaction
+from core.models.invoice import Invoice
+from core.models.receipt import Receipt
+from core.models.transaction import Transaction
 from reconciliation.reconciliation_report import ReconciliationReport
 from reporting.report_models import FinalReport
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
-from repositories.report_repository import ReportRepository
+from persistence.repositories.report_repository import ReportRepository
 
 
 router = APIRouter()

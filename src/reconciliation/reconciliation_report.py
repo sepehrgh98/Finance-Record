@@ -26,8 +26,28 @@ class Finding:
 
 
 @dataclass
+class EntityEnrichment:
+    entity_type: str
+    entity_id: str
+    entity_name: str
+    knowledge_type: str
+    statement: str
+    payload: dict = field(default_factory=dict)
+
+
+@dataclass
+class VirtualEntity:
+    entity_type: str
+    entity_id: str
+    entity_name: str
+    data: dict = field(default_factory=dict)
+
+
+@dataclass
 class ReconciliationReport:
     annotations: list[Annotation] = field(default_factory=list)
     action_items: list[str] = field(default_factory=list)
     rules: list[str] = field(default_factory=list)
     findings: list[Finding] = field(default_factory=list)
+    entity_enrichments: list[EntityEnrichment] = field(default_factory=list)
+    virtual_entities: list[VirtualEntity] = field(default_factory=list)
