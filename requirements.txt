@@ -1,17 +1,16 @@
-# Current required Python code only uses the standard library.
-#
 # Local system tools used by extractors:
 # - ghostscript (`gs`) for PDF text extraction
 # - tesseract for image OCR
 #
-# Optional Python OCR integrations supported when installed:
-# - easyocr
+# Python OCR integrations:
 # - pytesseract + Pillow
 # - Pillow for image preprocessing before OCR
 # - paddleocr for low-quality and handwritten image fallback
 #
-# Optional local LLM:
-# - Ollama running locally at http://localhost:11434
+# Local LLM/VLM:
+# - Qwen2.5-VL is loaded locally through Transformers.
+# - No external API key is required.
+# - Model weights are downloaded on first use unless already cached.
 fastapi>=0.115.0
 uvicorn[standard]>=0.30.0
 python-multipart>=0.0.9
@@ -21,6 +20,7 @@ paddleocr>=2.8.0
 qwen-vl-utils>=0.0.8
 transformers>=4.50.0
 accelerate>=1.0.0
+torch>=2.3.0
 torchvision>=0.18.0
 sentencepiece>=0.2.0
 safetensors>=0.5.0

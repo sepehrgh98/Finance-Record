@@ -61,7 +61,7 @@ VLM_MODEL = _env_str(
 
 VLM_LOCAL_FILES_ONLY = _env_bool(
     "VLM_LOCAL_FILES_ONLY",
-    True,
+    False,
 )
 
 # --------------------------------------------------

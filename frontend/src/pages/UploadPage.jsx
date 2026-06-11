@@ -140,7 +140,7 @@ export default function UploadPage({ onReport }) {
     <section className="upload-panel">
       <div className="panel-heading">
         <div>
-          <h1>Document Intelligence</h1>
+          <h1>Finance Record</h1>
           <p>Upload invoices, statements, receipts, and notes.</p>
         </div>
         <button
